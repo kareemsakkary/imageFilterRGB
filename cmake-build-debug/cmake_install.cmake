@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/20100/Desktop/c++/imageFilterRGB
+# Install script for directory: C:/Users/Kareemsakkary/Desktop/college/Second_Term/Structured_Programming/Assignment-3/imageFilterRGB
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/20100/Desktop/c++/imageFilterRGB/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/Kareemsakkary/Desktop/college/Second_Term/Structured_Programming/Assignment-3/imageFilterRGB/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
