@@ -53,9 +53,9 @@ int main() {
             case '5':
                 rotateImage();
                 break;
-//            case '6':
-//                darkenLightenImage();
-//                break;
+            case '6':
+                darkenLightenImage();
+               break;
             case '7':
                 detectImageEdges();
                 break;
@@ -552,3 +552,24 @@ void detectImageEdges(){
     }
     imageName+= "`s objects edges";
 }//done
+
+void darkenLightenImage(){
+    string action;
+    cout<<"Darken or lighten?"; cin>>action;
+    if (action == "Darken"){
+        for(int i = 0;i<=SIZE;i++) {
+            for(int k =0;k<=RGB;k++){
+                for (int j = 0; j <= SIZE; j++) {
+                    download[i][j][k]=(image[i][j][k]+255)/2;
+                    image[i][j][k] = download[i][j][k];
+
+                }}}
+    }else if (action == "lighten"){
+        for(int i = 0;i<=SIZE;i++){
+            for(int j = 0; j<=SIZE;j++){
+                for(int k =0;k<=RGB;k++){
+
+                    download[i][j][k]=(image[i][j][k])/2;
+                    image[i][j][k] = download[i][j][k];
+                }}}
+    }}
