@@ -41,8 +41,8 @@ int main() {
 //            case '1':
 //                blackWhite();
 //                break;
-//            case '2':
-//                invertImage();
+            case '2':
+                invertImage();
 //                break;
 //            case '3':
 //                mergeImage();
@@ -123,6 +123,18 @@ void download_image(){
     cout<<"please enter the name of the image you want to download:\n ";cin>>download_image;
     strcat(download_image,".bmp");
     writeRGBBMP(download_image,image);}
+
+
+void invertImage() {
+    for (int i = 0; i < 256; i++) {
+        for (int j = 0; j < 256; j++) {
+            for (int l = 0; l < 3; l++) {
+                image[i][j][l] = 255 - image[i][j][l];
+            }
+        }
+    }
+    imageName += " invert";
+}
 
 
 void flipImage(){
