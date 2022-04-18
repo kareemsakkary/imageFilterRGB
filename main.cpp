@@ -28,7 +28,6 @@ void download_image();
 string imageName;
 
 
-
 int main() {
     char op;
     upload_image();
@@ -38,9 +37,9 @@ int main() {
             break;
         }
         switch (op) {
-//            case '1':
-//                blackWhite();
-//                break;
+            case '1':
+                blackWhite();
+                break;
             case '2':
                 invertImage();
                 break;
@@ -134,6 +133,34 @@ void invertImage() {
         }
     }
     imageName += " invert";
+}
+
+
+void blackWhite(){
+    int sum = 0;
+    for(int i =0;i<SIZE;i++){
+        for(int j =0;j<SIZE;j++){
+            for (int l = 0; l < 3; l++) {
+                sum+=(int) image[i][j][l];
+            }
+        }
+    }
+    int avg = sum/(SIZE*SIZE);
+    for(int i =0;i<SIZE;i++){
+        for(int j =0;j<SIZE;j++){
+            if((image[i][j][0]+image[i][j][1]+image[i][j][2])>=avg) {
+                image[i][j][0] = 255;
+                image[i][j][1] = 255;
+                image[i][j][2] = 255;
+            }
+            else{
+                image[i][j][0]=0;
+                image[i][j][1]=0;
+                image[i][j][2]=0;
+                }
+            }
+        }
+    imageName+=" B&W";
 }
 
 
