@@ -9,6 +9,7 @@ unsigned char download[SIZE][SIZE][RGB];
 
 
 char getOption();
+void assign(unsigned char image1 [SIZE][SIZE][RGB],int x1,int y1,unsigned char image2 [SIZE][SIZE][RGB],int x2,int y2);
 
 void upload_image();
 void blackWhite();
@@ -37,27 +38,27 @@ int main() {
             break;
         }
         switch (op) {
-            case '1':
-                blackWhite();
-                break;
-            case '2':
-                invertImage();
-                break;
-            case '3':
-                mergeImage();
-                break;
+//            case '1':
+//                blackWhite();
+//                break;
+//            case '2':
+//                invertImage();
+//                break;
+//            case '3':
+//                mergeImage();
+//                break;
             case '4':
                 flipImage();
                 break;
             case '5':
                 rotateImage();
                 break;
-            case '6':
-                darkenLightenImage();
-                break;
-            case '7':
-                detectImageEdges();
-                break;
+//            case '6':
+//                darkenLightenImage();
+//                break;
+//            case '7':
+//                detectImageEdges();
+//                break;
             case '8':
                 enlargeImage();
                 break;
@@ -70,9 +71,9 @@ int main() {
             case 'b':
                 shuffleImage();
                 break;
-            case 'c':
-                blurImage();
-                break;
+//            case 'c':
+//                blurImage();
+//                break;
             case 's':
                 download_image();
                 break;
@@ -85,6 +86,8 @@ int main() {
     }
     return 0;
 }
+
+
 char getOption() {
     char op;
     cout <<"Please select a filter to apply on "<<imageName<<" or 0 to exit:\n"
@@ -107,7 +110,6 @@ char getOption() {
     cin >> op;
     return op;
 }
-
 void upload_image(){
     char upload_image[200];
     cout<<"please enter the name of the image you want to upload:\n ";cin>>upload_image;
@@ -116,10 +118,324 @@ void upload_image(){
     readRGBBMP(upload_image,image);
 
 }
-
-
 void download_image(){
     char download_image[200];
     cout<<"please enter the name of the image you want to download:\n ";cin>>download_image;
     strcat(download_image,".bmp");
     writeRGBBMP(download_image,image);}
+
+
+void flipImage(){
+    char dir='n';
+    while (dir!='h'&&dir!='v'){
+        cout << "Flip horizontally(h) or vertically(v)";
+        cin>>dir;
+    }
+    if(dir == 'h'){
+        unsigned char temp;
+        for(int i =0;i<SIZE/2;i++){
+            for(int j =0;j<SIZE;j++){
+                for(int l =0;l<3;l++){
+                    temp = image[i][j][l];
+                    image[i][j][l]=image[SIZE-i-1][SIZE-j-1][l];
+                    image[SIZE-i-1][SIZE-j-1][l]=temp;
+                }
+            }
+        }
+        imageName+=" flip (h)";
+    }else{
+        unsigned char temp;
+        for(int i =0;i<SIZE;i++){
+            for(int j =0;j<SIZE/2;j++){
+                for(int l =0;l<3;l++){
+                    temp = image[i][j][l];
+                    image[i][j][l] = image[i][SIZE - j - 1][l];
+                    image[i][SIZE - j - 1][l] = temp;
+                }
+            }
+        }
+        imageName+=" flip (v)";
+    }
+}
+void rotate() {
+    unsigned char tempMat[256][256][3];
+    for (int i = 0; i < 256; i++) {
+        for (int j = 0; j < 256; j++) {
+            for(int l=0;l<3;l++) {
+                tempMat[j][256 - i][l] = image[i][j][l];
+            }
+        }
+    }
+    for (int i = 0; i < 256; i++) {
+        for (int j = 0; j < 256; j++) {
+            for(int l=0;l<3;l++){ image[i][j][l] = tempMat[i][j][l]; }
+        }
+    }
+}
+void rotateImage(){
+    int degree, c{0};
+    cout << "Which degree do you want to rotate by ? (90 - 180 - 270)" << endl;
+    cin >> degree;
+    if (degree == 90) {
+        rotate();
+    }
+    if (degree == 180) {
+        while (c < 2) {
+            rotate();
+            c++;
+        }
+    }
+    if (degree == 270) {
+        while (c < 3) {
+            rotate();
+            c++;
+        }
+    }
+    imageName+= " rotate "+to_string(degree)+" degree";
+}
+void enlargeImage(){
+    cout << "Please enter the number of the quarter you want to enlarge: " << endl;
+    int nQuarter, startX, startY, countX = 0, countY = 0; ;
+    cin >> nQuarter;
+    while (nQuarter < 0 || nQuarter > 4){
+        cout << "Invalid! Please enter a number from [1, 2, 3, 4]" << endl;
+        cin >> nQuarter;
+    } // set the starting point depending on which quarter the user will choose
+    if (nQuarter == 1)
+        startX = startY = 0;
+    if (nQuarter == 2){
+        startX = 0;
+        startY = 128;
+    }
+    if (nQuarter == 3){
+        startX = 128;
+        startY = 0;
+    }
+    if (nQuarter == 4)
+        startX = startY = 128;
+    unsigned char enlargedImage[256][256][3], tmp;
+    for (int x = startX; x < startX + 128; x++){
+        for (int y = startY; y < startY + 128; y++){
+            for(int l=0;l<3;l++) {
+                tmp = image[x][y][l];
+                for (int i = countX;i < countX + 2; i++) { // enlarge the quarter image by duplicating each pixel 4 times
+                    for (int j = countY; j < countY + 2; j++) {
+                        enlargedImage[i][j][l] = tmp;
+                    }
+                }
+            }
+            countY += 2;
+        }
+        countY = 0;
+        countX += 2;
+    }
+    for (int i = 0; i < 256; i++) {
+        for (int j = 0; j < 256; j++) {
+            for(int l=0;l<3;l++) {
+                image[i][j][l] = enlargedImage[i][j][l];
+            }
+        }
+    }
+    imageName+= " enlarge "+to_string(nQuarter)+"th quarter";
+
+}
+void shrinkImage(){
+    cout << "please enter the value you want to shrink with from the list[1/2,1/3,1/4]\n";
+    string shrink_value;
+    cin >> shrink_value;
+    for(int l=0;l<3;l++) {
+        if (shrink_value == "1/2") {
+            int c = 0;
+            for (int i = 0; i < SIZE; i += 2) {
+                int d = 0;
+                for (int j = 0; j < SIZE; j += 2) {
+                    image[c][d][l] = ((image[i][j][l] + image[i + 1][j][l] + image[i][j + 1][l] + image[i + 1][j + 1][l]) / 4);
+                    d++;
+                }
+                c++;
+            }
+            for (int i = 0; i < SIZE; i++) {
+                for (int j = 0; j < SIZE; j++) {
+                    if (i >= (SIZE / 2) || j >= (SIZE / 2)) {
+                        image[i][j][l] = SIZE - 1;
+                    }
+                }
+            }
+        } else if (shrink_value == "1/3") {
+            int c = 0;
+            for (int i = 0; i < SIZE; i += 3) {
+                int d = 0;
+                for (int j = 0; j < SIZE; j += 3) {
+                    image[c][d][l] = (
+                            (image[i][j][l] + image[i + 1][j][l] + image[i][j + 1][l] + image[i + 1][j + 1][l] + image[i][j + 2][l] +
+                             image[i + 2][j][l] + image[i + 2][i + 2][l] + image[i + 1][j + 2][l] + image[i + 2][j + 1][l]) / 9);
+                    d++;
+                }
+                c++;
+            }
+            for (int i = 0; i < SIZE; i++) {
+                for (int j = 0; j < SIZE; j++) {
+                    if (i >= (SIZE / 3) || j >= (SIZE / 3)) {
+                        image[i][j][l] = SIZE - 1;
+                    }
+                }
+            }
+        } else if (shrink_value == "1/4") {
+            int c = 0;
+            for (int i = 0; i < SIZE; i += 4) {
+                int d = 0;
+                for (int j = 0; j < SIZE; j += 4) {
+                    image[c][d][l] = (
+                            (image[i][j][l] + image[i + 1][j][l] + image[i][j + 1] [l]+ image[i + 1][j + 1][l] + image[i][j + 2][l] +
+                             image[i + 2][j][l] + image[i + 2][i + 2] [l]+ image[i + 1][j + 2][l] + image[i + 2][j + 1][l] +
+                             image[i + 3][j][l] + image[i][j + 3][l] + image[i + 1][j + 3][l] + image[i + 3][j + 1][l] +
+                             image[i + 3][j + 2] [l]+ image[i + 2][j + 3][l]) / 16);
+                    d++;
+                }
+                c++;
+            }
+            for (int i = 0; i < SIZE; i++) {
+                for (int j = 0; j < SIZE; j++) {
+                    if (i >= (SIZE / 4) || j >= (SIZE / 4)) {
+                        image[i][j][l] = SIZE - 1;
+                    }
+                }
+            }
+        }
+    }
+    imageName+= " shrink with "+shrink_value;
+
+}
+void mirrorHalf(){
+    char half='n';
+    while (half!='l'&&half!='r'&&half!='u'&&half!='d'){
+        cout << "Mirror left(l), right(r), upper(u), down(d) side? ";
+        cin>>half;
+    }
+    switch (half) {
+        case 'l':
+            for(int i =0;i<SIZE;i++){
+                for(int j =0;j<SIZE/2;j++){
+                    for(int l =0 ;l<3;l++) {
+                        image[i][SIZE - j - 1][l] = image[i][j][l];
+                    }
+                }
+            }
+            imageName+=" mirror (l)";
+            break;
+        case 'r':
+            for(int i =0;i<SIZE;i++){
+                for(int j =0;j<SIZE/2;j++){
+                    for(int l =0 ;l<3;l++){
+                        image[i][j][l] = image[i][SIZE - j - 1][l];
+                    }
+                }
+            }
+            imageName+=" mirror (r)";
+            break;
+        case 'd':
+            for(int i =0;i<SIZE/2;i++){
+                for(int j =0;j<SIZE;j++){
+                    for(int l =0 ;l<3;l++)
+                    { image[255 - i][j][l] = image[i][j][l]; }
+                }
+            }
+            imageName+=" mirror (d)";
+            break;
+        case 'u':
+            for(int i =0;i<SIZE/2;i++){
+                for(int j =0;j<SIZE;j++){
+                    for(int l =0 ;l<3;l++) {
+                        image[i][j][l] = image[SIZE - i - 1][j][l];
+                    }
+                }
+            }
+            imageName+=" mirror (u)";
+            break;
+    }
+}
+void shuffleImage(){
+    string order;
+    cout << "Please enter the order you want to the quarters in the new image: " << endl;
+    cin.ignore();
+    getline(cin, order);
+    unsigned char tempMatrix[256][256][3];
+    int q{1};
+    for (char k: order) {
+        if(k == ' '){
+            continue;
+        }
+        for (int i = 0; i < 256 / 2; i++) {
+            for (int j = 0; j < 256 / 2; j++) {
+                for(int l =0 ;l<3;l++) {
+                    if (q == 1) {  // first quarter
+                        if (k == '1') {
+                            tempMatrix[i][j][l] = image[i][j][l];
+                        }
+                        if (k == '2') {
+                            tempMatrix[i][j][l] = image[i][j + 128][l];
+                        }
+                        if (k == '3') {
+                            tempMatrix[i][j][l] = image[i + 128][j][l];
+                        }
+                        if (k == '4') {
+                            tempMatrix[i][j][l] = image[i + 128][j + 128][l];
+                        }
+                    }
+                    if (q == 2) {  // second quarter
+                        if (k == '1') {
+                            tempMatrix[i][j + 128][l] = image[i][j][l];
+                        }
+                        if (k == '2') {
+                            tempMatrix[i][j + 128][l] = image[i][j + 128][l];
+                        }
+                        if (k == '3') {
+                            tempMatrix[i][j + 128][l] = image[i + 128][j][l];
+                        }
+                        if (k == '4') {
+                            tempMatrix[i][j + 128][l] = image[i + 128][j + 128][l];
+                        }
+                    }
+                    if (q == 3) {  // third quarter
+                        if (k == '1') {
+                            tempMatrix[i + 128][j][l] = image[i][j][l];
+                        }
+                        if (k == '2') {
+                            tempMatrix[i + 128][j][l] = image[i][j + 128][l];
+                        }
+                        if (k == '3') {
+                            tempMatrix[i + 128][j][l] = image[i + 128][j][l];
+                        }
+                        if (k == '4') {
+                            tempMatrix[i + 128][j][l] = image[i + 128][j + 128][l];
+                        }
+                    }
+                    if (q == 4) {  // fourth quarter
+                        if (k == '1') {
+                            tempMatrix[i + 128][j + 128][l] = image[i][j][l];
+                        }
+                        if (k == '2') {
+                            tempMatrix[i + 128][j + 128][l] = image[i][j + 128][l];
+                        }
+                        if (k == '3') {
+                            tempMatrix[i + 128][j + 128][l] = image[i + 128][j][l];
+                        }
+                        if (k == '4') {
+                            tempMatrix[i + 128][j + 128][l] = image[i + 128][j + 128][l];
+                        }
+                    }
+                }
+            }
+        }
+        q++;
+    }
+    for (int i = 0; i < 256; i++) {
+        for (int j = 0; j < 256; j++) {
+            for(int l =0 ;l<3;l++) {
+                image[i][j][l] = tempMatrix[i][j][l];
+            }
+        }
+    }
+    imageName+= " shuffle by order "+order;
+
+}
