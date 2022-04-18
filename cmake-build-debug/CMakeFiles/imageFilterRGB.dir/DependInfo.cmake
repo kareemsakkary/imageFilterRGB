@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "C:/Users/Kareemsakkary/Desktop/college/Second_Term/Structured_Programming/Assignment-3/imageFilterRGB/main.cpp" "CMakeFiles/imageFilterRGB.dir/main.cpp.obj" "gcc" "CMakeFiles/imageFilterRGB.dir/main.cpp.obj.d"
+  "D:/CLion/imageFilterRGB/main.cpp" "CMakeFiles/imageFilterRGB.dir/main.cpp.obj" "gcc" "CMakeFiles/imageFilterRGB.dir/main.cpp.obj.d"
   )
 
 # Targets to which this target links.

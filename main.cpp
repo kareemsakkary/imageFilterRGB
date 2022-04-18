@@ -28,7 +28,6 @@ void download_image();
 string imageName;
 
 
-
 int main() {
     char op;
     upload_image();
@@ -38,14 +37,14 @@ int main() {
             break;
         }
         switch (op) {
-//            case '1':
-//                blackWhite();
-//                break;
-//            case '2':
-//                invertImage();
-//                break;
+            case '1':
+                blackWhite();
+                break;
+            case '2':
+                invertImage();
+                break;
 //            case '3':
-//                mergeImage();
+              mergeImage();
 //                break;
             case '4':
                 flipImage();
@@ -72,7 +71,7 @@ int main() {
                 shuffleImage();
                 break;
 //            case 'c':
-//                blurImage();
+                blurImage();
 //                break;
             case 's':
                 download_image();
@@ -123,6 +122,46 @@ void download_image(){
     cout<<"please enter the name of the image you want to download:\n ";cin>>download_image;
     strcat(download_image,".bmp");
     writeRGBBMP(download_image,image);}
+
+
+void invertImage() {
+    for (int i = 0; i < 256; i++) {
+        for (int j = 0; j < 256; j++) {
+            for (int l = 0; l < 3; l++) {
+                image[i][j][l] = 255 - image[i][j][l];
+            }
+        }
+    }
+    imageName += " invert";
+}
+
+
+void blackWhite(){
+    int sum = 0;
+    for(int i =0;i<SIZE;i++){
+        for(int j =0;j<SIZE;j++){
+            for (int l = 0; l < 3; l++) {
+                sum+=(int) image[i][j][l];
+            }
+        }
+    }
+    int avg = sum/(SIZE*SIZE);
+    for(int i =0;i<SIZE;i++){
+        for(int j =0;j<SIZE;j++){
+            if((image[i][j][0]+image[i][j][1]+image[i][j][2])>=avg) {
+                image[i][j][0] = 255;
+                image[i][j][1] = 255;
+                image[i][j][2] = 255;
+            }
+            else{
+                image[i][j][0]=0;
+                image[i][j][1]=0;
+                image[i][j][2]=0;
+                }
+            }
+        }
+    imageName+=" B&W";
+}
 
 
 void flipImage(){
@@ -439,3 +478,43 @@ void shuffleImage(){
     imageName+= " shuffle by order "+order;
 
 }
+
+void blurImage(){
+    int value;
+    for (int i=0 ; i<253 ; i+=2){
+        for (int j=0 ; j<253 ; j+=2){
+            for(int k =0;k<4;k++){
+                value =((image[i][j][k]+image[i+1][j][k]+image[i][j+1][k]+image[i+1][j+1][k]+image[i][j+2][k]+image[i+2][j][k]+image[i+2][i+2][k]+image[i+1][j+2][k]+image[i+2][j+1][k]+image[i+3][j][k]+image[i][j+3][k]+image[i+3][j+3][k]+image[i+2][j+3][k]+image[i+3][j+2][k])/14);
+                image[i][j][k]=value;
+                image[i+1][j][k]=value;
+                image[i][j+1][k]=value;
+                image[i+1][j+1][k]=value;
+                image[i][j+2][k]=value;
+                image[i+2][j][k]=value;
+                image[i+2][i+2][k]=value;
+                image[i+1][j+2][k]=value;
+                image[i+2][j+1][k]=value;
+                image[i+3][j][k]=value;
+                image[i][j+3][k]=value;
+                image[i+3][j+3][k]=value;
+                image[i+2][j+3][k]= value;
+                image[i+3][j+2][k]=value;
+
+            }}}
+    imageName+= " blur";
+
+}
+void mergeImage(){
+    char upload_image[200];
+    unsigned char to_merge [SIZE][SIZE][RGB];
+    cout<<"please enter the name of the image you want to merge with:\n ";cin>>upload_image;
+    strcat(upload_image,".bmp");
+    readRGBBMP(upload_image,to_merge);
+
+    for(int i = 0;i<SIZE;i++){
+        for(int j = 0;j<SIZE;j++){
+            for(int k = 0;k<4;k++){
+                download[i][j][k]=(image[i][j][k]+to_merge[i][j][k])/2;
+                image[i][j][k]=download[i][j][k];
+
+            }}}}
