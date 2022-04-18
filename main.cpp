@@ -28,6 +28,7 @@ void download_image();
 string imageName;
 
 
+
 int main() {
     char op;
     upload_image();
@@ -43,9 +44,9 @@ int main() {
             case '2':
                 invertImage();
                 break;
-//            case '3':
+            case '3':
               mergeImage();
-//                break;
+                break;
             case '4':
                 flipImage();
                 break;
@@ -70,9 +71,9 @@ int main() {
             case 'b':
                 shuffleImage();
                 break;
-//            case 'c':
+            case 'c':
                 blurImage();
-//                break;
+                break;
             case 's':
                 download_image();
                 break;
