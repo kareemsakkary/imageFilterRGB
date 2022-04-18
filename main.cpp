@@ -56,9 +56,9 @@ int main() {
 //            case '6':
 //                darkenLightenImage();
 //                break;
-//            case '7':
-//                detectImageEdges();
-//                break;
+            case '7':
+                detectImageEdges();
+                break;
             case '8':
                 enlargeImage();
                 break;
@@ -479,7 +479,6 @@ void shuffleImage(){
     imageName+= " shuffle by order "+order;
 
 }
-
 void blurImage(){
     int value;
     for (int i=0 ; i<253 ; i+=2){
@@ -519,3 +518,37 @@ void mergeImage(){
                 image[i][j][k]=download[i][j][k];
 
             }}}}
+void detectImageEdges(){
+    unsigned char newImage[SIZE][SIZE][3];
+    for(int i =0;i<SIZE-2;i++){
+        for(int j =0;j<SIZE-2;j++){
+           int colorX, colorY;
+           for(int l =0;l<3;l++){
+               colorX =image[i][j][l]*1   + image[i][j+1][l]*0   +image[i][j+2][l]*-1;
+               colorX+=image[i+1][j][l]*2 + image[i+1][j+1][l]*0 +image[i+1][j+2][l]*-2;
+               colorX+=image[i+1][j][l]*1 + image[i+1][j+1][l]*0 +image[i+1][j+2][l]*-1;
+               colorX = colorX > 255 ? 255 : colorX;
+               colorY =image[i][j][l]*1   + image[i][j+1][l]*2   +image[i][j+2][l]*1;
+               colorY+=image[i+1][j][l]*0 + image[i+1][j+1][l]*0 +image[i+1][j+2][l]*0;
+               colorY+=image[i+1][j][l]*-1 + image[i+1][j+1][l]*-2 +image[i+1][j+2][l]*-1;
+               colorY = colorY > 255 ? 255 : colorY;
+               newImage[i][j][l]= (abs(colorX)+ abs(colorY))>255?255:(abs(colorX)+ abs(colorY));
+           }
+        }
+    }
+    for(int i =SIZE-2;i<SIZE;i++){
+        for(int j =SIZE-2;j<SIZE;j++) {
+            for(int l =0;l<3;l++) {
+                newImage[i][j][l]=0;
+            }
+        }
+    }
+    for(int i =0;i<SIZE;i++){
+        for(int j =0;j<SIZE;j++) {
+            for(int l =0;l<3;l++){
+                image[i][j][l] = newImage[i][j][l];
+            }
+        }
+    }
+    imageName+= "`s objects edges";
+}//done
