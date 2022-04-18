@@ -43,7 +43,7 @@ int main() {
 //                break;
             case '2':
                 invertImage();
-//                break;
+                break;
 //            case '3':
 //                mergeImage();
 //                break;
