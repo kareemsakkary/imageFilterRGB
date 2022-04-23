@@ -49,8 +49,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "D:/CLion/imageFilterRGB/cmake-build-debug",
-		"source" : "D:/CLion/imageFilterRGB"
+		"build" : "C:/Users/Kareemsakkary/Desktop/college/Second_Term/Structured_Programming/Assignment-3/imageFilterRGB/cmake-build-debug",
+		"source" : "C:/Users/Kareemsakkary/Desktop/college/Second_Term/Structured_Programming/Assignment-3/imageFilterRGB"
 	},
 	"version" : 
 	{

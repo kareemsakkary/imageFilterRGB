@@ -62,12 +62,12 @@ int main() {
             case '5':
                 rotateImage();
                 break;
-//            case '6':
-//                darkenLightenImage();
-//                break;
-//            case '7':
-//                detectImageEdges();
-//                break;
+            case '6':
+                darkenLightenImage();
+               break;
+            case '7':
+                detectImageEdges();
+                break;
             case '8':
                 enlargeImage();
                 break;
@@ -292,22 +292,25 @@ void shrinkImage(){
     cout << "please enter the value you want to shrink with from the list[1/2,1/3,1/4]\n";
     string shrink_value;
     cin >> shrink_value;
-    for(int l=0;l<3;l++) {
         if (shrink_value == "1/2") {
             int c = 0;
             for (int i = 0; i < SIZE; i += 2) {
                 int d = 0;
                 for (int j = 0; j < SIZE; j += 2) {
-                    image[c][d][l] = ((image[i][j][l] + image[i + 1][j][l] + image[i][j + 1][l] + image[i + 1][j + 1][l]) / 4);
-                    d++;
+                    for(int l=0;l<3;l++) {
+                        image[c][d][l] = (
+                                (image[i][j][l] + image[i + 1][j][l] + image[i][j + 1][l] + image[i + 1][j + 1][l]) /
+                                4);
+                    }d++;
                 }
                 c++;
             }
             for (int i = 0; i < SIZE; i++) {
                 for (int j = 0; j < SIZE; j++) {
+                    for(int l=0;l<3;l++) {
                     if (i >= (SIZE / 2) || j >= (SIZE / 2)) {
                         image[i][j][l] = SIZE - 1;
-                    }
+                    }}
                 }
             }
         } else if (shrink_value == "1/3") {
@@ -315,18 +318,22 @@ void shrinkImage(){
             for (int i = 0; i < SIZE; i += 3) {
                 int d = 0;
                 for (int j = 0; j < SIZE; j += 3) {
-                    image[c][d][l] = (
-                            (image[i][j][l] + image[i + 1][j][l] + image[i][j + 1][l] + image[i + 1][j + 1][l] + image[i][j + 2][l] +
-                             image[i + 2][j][l] + image[i + 2][i + 2][l] + image[i + 1][j + 2][l] + image[i + 2][j + 1][l]) / 9);
-                    d++;
+                    for(int l=0;l<3;l++) {
+                        image[c][d][l] = (
+                                (image[i][j][l] + image[i + 1][j][l] + image[i][j + 1][l] + image[i + 1][j + 1][l] +
+                                 image[i][j + 2][l] +
+                                 image[i + 2][j][l] + image[i + 2][j + 2][l] + image[i + 1][j + 2][l] +
+                                 image[i + 2][j + 1][l]) / 9);
+                    }d++;
                 }
                 c++;
             }
             for (int i = 0; i < SIZE; i++) {
                 for (int j = 0; j < SIZE; j++) {
+                    for(int l=0;l<3;l++) {
                     if (i >= (SIZE / 3) || j >= (SIZE / 3)) {
                         image[i][j][l] = SIZE - 1;
-                    }
+                    }}
                 }
             }
         } else if (shrink_value == "1/4") {
@@ -334,26 +341,30 @@ void shrinkImage(){
             for (int i = 0; i < SIZE; i += 4) {
                 int d = 0;
                 for (int j = 0; j < SIZE; j += 4) {
-                    image[c][d][l] = (
-                            (image[i][j][l] + image[i + 1][j][l] + image[i][j + 1] [l]+ image[i + 1][j + 1][l] + image[i][j + 2][l] +
-                             image[i + 2][j][l] + image[i + 2][i + 2] [l]+ image[i + 1][j + 2][l] + image[i + 2][j + 1][l] +
-                             image[i + 3][j][l] + image[i][j + 3][l] + image[i + 1][j + 3][l] + image[i + 3][j + 1][l] +
-                             image[i + 3][j + 2] [l]+ image[i + 2][j + 3][l]) / 16);
-                    d++;
+                    for(int l=0;l<3;l++) {
+                        image[c][d][l] = (
+                                (image[i][j][l] + image[i + 1][j][l] + image[i][j + 1][l] + image[i + 1][j + 1][l] +
+                                 image[i][j + 2][l] +
+                                 image[i + 2][j][l] + image[i + 2][j + 2][l] + image[i + 1][j + 2][l] +
+                                 image[i + 2][j + 1][l] +
+                                 image[i + 3][j][l] + image[i][j + 3][l] + image[i + 1][j + 3][l] +
+                                 image[i + 3][j + 1][l] +
+                                 image[i + 3][j + 2][l] + image[i + 2][j + 3][l]) / 16);
+                    }d++;
                 }
                 c++;
             }
             for (int i = 0; i < SIZE; i++) {
                 for (int j = 0; j < SIZE; j++) {
+                    for(int l=0;l<3;l++) {
                     if (i >= (SIZE / 4) || j >= (SIZE / 4)) {
                         image[i][j][l] = SIZE - 1;
-                    }
+                    }}
                 }
             }
         }
-    }
-    imageName+= " shrink with "+shrink_value;
 
+    imageName+= " shrink with "+shrink_value;
 }
 void mirrorHalf(){
     char half='n';
@@ -488,7 +499,6 @@ void shuffleImage(){
     imageName+= " shuffle by order "+order;
 
 }
-
 void blurImage(){
     int value;
     for (int i=0 ; i<253 ; i+=2){
@@ -528,3 +538,58 @@ void mergeImage(){
                 image[i][j][k]=download[i][j][k];
 
             }}}}
+void detectImageEdges(){
+    unsigned char newImage[SIZE][SIZE][3];
+    for(int i =0;i<SIZE-2;i++){
+        for(int j =0;j<SIZE-2;j++){
+           int colorX, colorY;
+           for(int l =0;l<3;l++){
+               colorX =image[i][j][l]*1   + image[i][j+1][l]*0   +image[i][j+2][l]*-1;
+               colorX+=image[i+1][j][l]*2 + image[i+1][j+1][l]*0 +image[i+1][j+2][l]*-2;
+               colorX+=image[i+1][j][l]*1 + image[i+1][j+1][l]*0 +image[i+1][j+2][l]*-1;
+               colorX = colorX > 255 ? 255 : colorX;
+               colorY =image[i][j][l]*1   + image[i][j+1][l]*2   +image[i][j+2][l]*1;
+               colorY+=image[i+1][j][l]*0 + image[i+1][j+1][l]*0 +image[i+1][j+2][l]*0;
+               colorY+=image[i+1][j][l]*-1 + image[i+1][j+1][l]*-2 +image[i+1][j+2][l]*-1;
+               colorY = colorY > 255 ? 255 : colorY;
+               newImage[i][j][l]= (abs(colorX)+ abs(colorY))>255?255:(abs(colorX)+ abs(colorY));
+           }
+        }
+    }
+    for(int i =SIZE-2;i<SIZE;i++){
+        for(int j =SIZE-2;j<SIZE;j++) {
+            for(int l =0;l<3;l++) {
+                newImage[i][j][l]=0;
+            }
+        }
+    }
+    for(int i =0;i<SIZE;i++){
+        for(int j =0;j<SIZE;j++) {
+            for(int l =0;l<3;l++){
+                image[i][j][l] = newImage[i][j][l];
+            }
+        }
+    }
+    imageName+= "`s objects edges";
+}//done
+
+void darkenLightenImage(){
+    string action;
+    cout<<"Darken or lighten?"; cin>>action;
+    if (action == "Darken"){
+        for(int i = 0;i<=SIZE;i++) {
+            for(int k =0;k<=RGB;k++){
+                for (int j = 0; j <= SIZE; j++) {
+                    download[i][j][k]=(image[i][j][k]+255)/2;
+                    image[i][j][k] = download[i][j][k];
+
+                }}}
+    }else if (action == "lighten"){
+        for(int i = 0;i<=SIZE;i++){
+            for(int j = 0; j<=SIZE;j++){
+                for(int k =0;k<=RGB;k++){
+
+                    download[i][j][k]=(image[i][j][k])/2;
+                    image[i][j][k] = download[i][j][k];
+                }}}
+    }}
