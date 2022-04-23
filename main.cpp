@@ -1,3 +1,12 @@
+// FCI – Programming 1 – 2022 - Assignment 3
+// Program Name: ImageFilters.cpp
+// Last Modification Date: 23/4/2022
+// Author1 and ID and Group: Kareem El Sakkary, 20210301, S1
+// Author2 and ID and Group: Nada Mohammed, 20210422, S1
+// Author3 and ID and Group: Hoda Samir, 20210443, S1
+// Teaching Assistant: Nesma
+// Purpose: create a program that take a colored image and add filters to it then save it
+
 #include <iostream>
 #include <fstream>
 #include <cstring>
