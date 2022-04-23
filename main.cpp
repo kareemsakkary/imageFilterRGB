@@ -283,22 +283,25 @@ void shrinkImage(){
     cout << "please enter the value you want to shrink with from the list[1/2,1/3,1/4]\n";
     string shrink_value;
     cin >> shrink_value;
-    for(int l=0;l<3;l++) {
         if (shrink_value == "1/2") {
             int c = 0;
             for (int i = 0; i < SIZE; i += 2) {
                 int d = 0;
                 for (int j = 0; j < SIZE; j += 2) {
-                    image[c][d][l] = ((image[i][j][l] + image[i + 1][j][l] + image[i][j + 1][l] + image[i + 1][j + 1][l]) / 4);
-                    d++;
+                    for(int l=0;l<3;l++) {
+                        image[c][d][l] = (
+                                (image[i][j][l] + image[i + 1][j][l] + image[i][j + 1][l] + image[i + 1][j + 1][l]) /
+                                4);
+                    }d++;
                 }
                 c++;
             }
             for (int i = 0; i < SIZE; i++) {
                 for (int j = 0; j < SIZE; j++) {
+                    for(int l=0;l<3;l++) {
                     if (i >= (SIZE / 2) || j >= (SIZE / 2)) {
                         image[i][j][l] = SIZE - 1;
-                    }
+                    }}
                 }
             }
         } else if (shrink_value == "1/3") {
@@ -306,18 +309,22 @@ void shrinkImage(){
             for (int i = 0; i < SIZE; i += 3) {
                 int d = 0;
                 for (int j = 0; j < SIZE; j += 3) {
-                    image[c][d][l] = (
-                            (image[i][j][l] + image[i + 1][j][l] + image[i][j + 1][l] + image[i + 1][j + 1][l] + image[i][j + 2][l] +
-                             image[i + 2][j][l] + image[i + 2][i + 2][l] + image[i + 1][j + 2][l] + image[i + 2][j + 1][l]) / 9);
-                    d++;
+                    for(int l=0;l<3;l++) {
+                        image[c][d][l] = (
+                                (image[i][j][l] + image[i + 1][j][l] + image[i][j + 1][l] + image[i + 1][j + 1][l] +
+                                 image[i][j + 2][l] +
+                                 image[i + 2][j][l] + image[i + 2][j + 2][l] + image[i + 1][j + 2][l] +
+                                 image[i + 2][j + 1][l]) / 9);
+                    }d++;
                 }
                 c++;
             }
             for (int i = 0; i < SIZE; i++) {
                 for (int j = 0; j < SIZE; j++) {
+                    for(int l=0;l<3;l++) {
                     if (i >= (SIZE / 3) || j >= (SIZE / 3)) {
                         image[i][j][l] = SIZE - 1;
-                    }
+                    }}
                 }
             }
         } else if (shrink_value == "1/4") {
@@ -325,26 +332,30 @@ void shrinkImage(){
             for (int i = 0; i < SIZE; i += 4) {
                 int d = 0;
                 for (int j = 0; j < SIZE; j += 4) {
-                    image[c][d][l] = (
-                            (image[i][j][l] + image[i + 1][j][l] + image[i][j + 1] [l]+ image[i + 1][j + 1][l] + image[i][j + 2][l] +
-                             image[i + 2][j][l] + image[i + 2][i + 2] [l]+ image[i + 1][j + 2][l] + image[i + 2][j + 1][l] +
-                             image[i + 3][j][l] + image[i][j + 3][l] + image[i + 1][j + 3][l] + image[i + 3][j + 1][l] +
-                             image[i + 3][j + 2] [l]+ image[i + 2][j + 3][l]) / 16);
-                    d++;
+                    for(int l=0;l<3;l++) {
+                        image[c][d][l] = (
+                                (image[i][j][l] + image[i + 1][j][l] + image[i][j + 1][l] + image[i + 1][j + 1][l] +
+                                 image[i][j + 2][l] +
+                                 image[i + 2][j][l] + image[i + 2][j + 2][l] + image[i + 1][j + 2][l] +
+                                 image[i + 2][j + 1][l] +
+                                 image[i + 3][j][l] + image[i][j + 3][l] + image[i + 1][j + 3][l] +
+                                 image[i + 3][j + 1][l] +
+                                 image[i + 3][j + 2][l] + image[i + 2][j + 3][l]) / 16);
+                    }d++;
                 }
                 c++;
             }
             for (int i = 0; i < SIZE; i++) {
                 for (int j = 0; j < SIZE; j++) {
+                    for(int l=0;l<3;l++) {
                     if (i >= (SIZE / 4) || j >= (SIZE / 4)) {
                         image[i][j][l] = SIZE - 1;
-                    }
+                    }}
                 }
             }
         }
-    }
-    imageName+= " shrink with "+shrink_value;
 
+    imageName+= " shrink with "+shrink_value;
 }
 void mirrorHalf(){
     char half='n';
