@@ -138,7 +138,7 @@ void invertImage() {
     for (int i = 0; i < 256; i++) {
         for (int j = 0; j < 256; j++) {
             for (int l = 0; l < 3; l++) {
-                image[i][j][l] = 255 - image[i][j][l];
+                image[i][j][l] = 255 - image[i][j][l]; // invert each color pixel by subtracting 255 from each pixel value
             }
         }
     }
@@ -205,13 +205,13 @@ void flipImage(){
         }
         imageName+=" flip (v)";
     }
-}
-void rotate() {
+}// for rotateImage
+void rotate() { // function to rotate by 90 degree only
     unsigned char tempMat[256][256][3];
     for (int i = 0; i < 256; i++) {
         for (int j = 0; j < 256; j++) {
             for(int l=0;l<3;l++) {
-                tempMat[j][256 - i][l] = image[i][j][l];
+                tempMat[j][256 - i][l] = image[i][j][l];// rotate clockwise rotation by replacing each row with opposite column from the end
             }
         }
     }
@@ -224,17 +224,17 @@ void rotate() {
 void rotateImage(){
     int degree, c{0};
     cout << "Which degree do you want to rotate by ? (90 - 180 - 270)" << endl;
-    cin >> degree;
+    cin >> degree;// take the degree that the user wants to rotate the image by it
     if (degree == 90) {
         rotate();
     }
-    if (degree == 180) {
+    if (degree == 180) { // 180 - rotate by 90 degree twice
         while (c < 2) {
             rotate();
             c++;
         }
     }
-    if (degree == 270) {
+    if (degree == 270) { // 270 - rotate by 90 degree 3 times
         while (c < 3) {
             rotate();
             c++;
@@ -243,6 +243,7 @@ void rotateImage(){
     imageName+= " rotate "+to_string(degree)+" degree";
 }
 void enlargeImage(){
+    // take the number of the quarter that the user wants to enlarge it
     cout << "Please enter the number of the quarter you want to enlarge: " << endl;
     int nQuarter, startX, startY, countX = 0, countY = 0; ;
     cin >> nQuarter;
@@ -416,6 +417,7 @@ void mirrorHalf(){
 }
 void shuffleImage(){
     string order;
+    // take the order from the user
     cout << "Please enter the order you want to the quarters in the new image: " << endl;
     cin.ignore();
     getline(cin, order);
@@ -428,6 +430,7 @@ void shuffleImage(){
         for (int i = 0; i < 256 / 2; i++) {
             for (int j = 0; j < 256 / 2; j++) {
                 for(int l =0 ;l<3;l++) {
+                    // fill the quarters in the temp matrix by the given order
                     if (q == 1) {  // first quarter
                         if (k == '1') {
                             tempMatrix[i][j][l] = image[i][j][l];
